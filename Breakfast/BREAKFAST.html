@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Island Vue - Breakfast Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
+        
+    :root {
+      --orange: #FB8C00;
+      --amber: #FFC107;
+      --cream: #FFFDE7;
+      --brown: #4E342E;
+      --light-shadow: rgba(0,0,0,0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('images/BACKGROUND.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      color: var(--brown);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 15px;
+      animation: fadeIn 1s ease-in;
+    }
+    body::before {
+      content: '';
+      position: fixed; /* Changed from absolute to fixed for full coverage */
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('islandvue2.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: repeat-y;
+      opacity: 0.5;
+      z-index: -1;
+    }
+
+    .container {
+      background-color: rgba(255, 253, 231, 0.95);
+      max-width: 700px;
+      width: 100%;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px var(--light-shadow);
+      /*backdrop-filter: blur(5px);*/
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--orange);
+      font-size: 2.5rem;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+    }
+
+    .menu-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #ffffffdd;
+      border-left: 5px solid var(--orange);
+      border-radius: 10px;
+      /*transition: transform 0.3s;*/
+    }
+
+    .menu-section:hover {
+      transform: scale(1.02);
+    }
+
+    .menu-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--orange);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--orange);
+      padding-bottom: 6px;
+    }
+
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed #ccc;
+      font-weight: 500;
+      font-size: 1.05rem;
+      transition: background-color 0.3s;
+    }
+
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .menu-item:hover {
+      background-color: #fff8e1;
+    }
+
+    .price {
+      background-color: var(--amber);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .menu-item:hover .price {
+      background-color: var(--orange);
+    }
+
+    .note {
+      text-align: center;
+      font-size: 0.9rem;
+      font-style: italic;
+      background-color: #fff3cd;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      margin-top: 25px;
+      text-transform: uppercase;
+    }
+
+    /* Animations 
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }*/
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .menu-title {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Island Vue Breakfast</h1>
+
+    <div class="menu-section">
+      <div class="menu-title">Breakfast Meal</div>
+      <div class="menu-item">
+        <span>W/Rice, Egg & Free Drinks (Coffee or Bottled Water)</span>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-title">Silog Meals</div>
+      <div class="menu-item">Pork <span class="price">₱170</span></div>
+      <div class="menu-item">Longganisa <span class="price">₱170</span></div>
+      <div class="menu-item">Hotdog <span class="price">₱170</span></div>
+      <div class="menu-item">Chicken <span class="price">₱170</span></div>
+      <div class="menu-item">Bangus <span class="price">₱170</span></div>
+      <div class="menu-item">Corn Beef <span class="price">₱170</span></div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-title">Specialties</div>
+      <div class="menu-item">Spicy Chorizo de Cebu <span class="price">₱180</span></div>
+      <div class="menu-item">Spamsilog <span class="price">₱180</span></div>
+      <div class="menu-item">Tocino <span class="price">₱180</span></div>
+      <div class="menu-item">Bacon <span class="price">₱180</span></div>
+    </div>
+
+    <div class="note">Prices are subject to 10% service charge</div>
+  </div>
+</body>
+</html>
