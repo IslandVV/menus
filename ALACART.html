@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Island Vue - Complete À La Carte Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E65100;
+            --primary-light: #FF8A50;
+            --secondary: #FFA000;
+            --light: #FFF8F0;
+            --dark: #2D2D2D;
+            --text: #444444;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Navigation Bar */
+        .navbar {
+            background-color: transparent;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            color: BLUE;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: orange;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('BACKGROUND.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+            opacity: 0.35;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: rgba(255,255,255,0.8);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-bottom: 4px solid var(--primary);
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.8rem;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .menu-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .menu-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(230,81,0,0.1);
+        }
+        
+        .menu-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .section-items {
+            padding: 20px;
+        }
+        
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(230,81,0,0.05);
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-name {
+            font-weight: 500;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .item-name::before {
+            content: '•';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .item-price {
+            font-weight: 700;
+            color: var(--primary);
+            background-color: rgba(230,81,0,0.1);
+            padding: 2px 10px;
+            border-radius: 20px;
+            transition: var(--transition);
+        }
+        
+        .menu-item:hover .item-price {
+            background-color: rgba(230,81,0,0.2);
+            transform: scale(1.05);
+        }
+        
+        .note {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-style: italic;
+            color: var(--text);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border-top: 3px solid var(--primary);
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            header {
+                padding: 20px 0;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">ISLAND VUE</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="Boodle Fight/BOODLEFIGHT.html">BOODLE FIGHT</a>
+                <a href="BoodleFight-green/BOODLEFIGHT2.html">MORE BOODLE OPTIONS</a>
+                <a href="Breakfast/BREAKFAST.html">BREAKFAST</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Island Vue À La Carte</h1>
+        </header>
+        
+        <div class="menu-sections">
+            <!-- Pork -->
+            <div class="menu-section">
+                <div class="section-title">Pork</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Sisig</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Sinigang Baboy</span>
+                        <span class="item-price">₱280</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Grilled Pork Belly</span>
+                        <span class="item-price">₱350</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Pork Adobo</span>
+                        <span class="item-price">₱280</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Menudo</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Letchon Kawali</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Shrimp -->
+            <div class="menu-section">
+                <div class="section-title">Shrimp</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Crispy Shrimps</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Buttered Shrimps</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Sweet Chili Shrimps</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Tempura</span>
+                        <span class="item-price">₱350</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Gambas</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Sinigang Hipon</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chicken -->
+            <div class="menu-section">
+                <div class="section-title">Chicken</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Adobong Manok</span>
+                        <span class="item-price">₱280</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Afritada</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Fried Chicken</span>
+                        <span class="item-price">₱280</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Tinola Manok</span>
+                        <span class="item-price">₱280</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Chicken Curry</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Sinigang Manok</span>
+                        <span class="item-price">₱280</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vegetables -->
+            <div class="menu-section">
+                <div class="section-title">Vegetables</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Chopsuey</span>
+                        <span class="item-price">₱200</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Tortang Talong</span>
+                        <span class="item-price">₱100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Ensaladang Talong</span>
+                        <span class="item-price">₱100</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Squid -->
+            <div class="menu-section">
+                <div class="section-title">Squid</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Adobo Squid</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Calamares</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Grilled Squid</span>
+                        <span class="item-price">₱350</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Noodles -->
+            <div class="menu-section">
+                <div class="section-title">Noodles</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Pancit Guisado</span>
+                        <span class="item-price">₱220</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Sotanghon</span>
+                        <span class="item-price">₱220</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Bam-i</span>
+                        <span class="item-price">₱220</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Lomi</span>
+                        <span class="item-price">₱220</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Fish -->
+            <div class="menu-section">
+                <div class="section-title">Fish</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Grilled Fish</span>
+                        <span class="item-price">₱350</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Tinola Isda</span>
+                        <span class="item-price">₱300</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Sweet & Sour</span>
+                        <span class="item-price">₱350</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sandwiches -->
+            <div class="menu-section">
+                <div class="section-title">Sandwiches</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Club House</span>
+                        <span class="item-price">₱250</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Tuna Sandwich</span>
+                        <span class="item-price">₱250</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Grilled Chicken</span>
+                        <span class="item-price">₱250</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Egg Bacon</span>
+                        <span class="item-price">₱250</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pitcher -->
+            <div class="menu-section">
+                <div class="section-title">Pitcher</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Orange Juice</span>
+                        <span class="item-price">₱140</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Ice Tea</span>
+                        <span class="item-price">₱140</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Four Seasons</span>
+                        <span class="item-price">₱140</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Shakes/Juice -->
+            <div class="menu-section">
+                <div class="section-title">Shakes/Juice</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Mango</span>
+                        <span class="item-price">₱100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Banana</span>
+                        <span class="item-price">₱100</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Watermelon</span>
+                        <span class="item-price">₱100</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rice -->
+            <div class="menu-section">
+                <div class="section-title">Rice</div>
+                <div class="section-items">
+                    <div class="menu-item">
+                        <span class="item-name">Rice (1 cup)</span>
+                        <span class="item-price">₱25</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Platter</span>
+                        <span class="item-price">₱100</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="note">
+            PRICES ARE SUBJECT TO 10% SERVICE CHARGE
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Island Vue - Boodle Fight Packages</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+  <style>
+     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
+
+        /* Background with blur effect */
+        .background-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .background-image {
+            width: 100%;
+            height: 100%;
+            background-image: url('BACKGROUND.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(1.5px);
+            transform: scale(1.1);
+        }
+        
+        /* Content overlay */
+        .content-overlay {
+            background-color: rgba(255, 255, 255, 0.85);
+            min-height: 100vh;
+        }
+        
+        /* Navigation Bar Styles */
+        .navbar {
+            background-color: transparent;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Amatic SC', cursive;
+            font-size: 2rem;
+            color: blue;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: brown;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            color: #FFA500;
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+    h1 {
+      text-align: center;
+      font-family: 'Amatic SC', cursive;
+      font-size: 3rem;
+      color: #795548;
+      margin-bottom: 30px;
+      padding-top: 20px;
+    }
+
+    .note {
+      text-align: center;
+      font-weight: bold;
+      background-color: #fff3cd;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #ffecb5;
+      margin-top: 30px;
+      color: #8d6e63;
+    }
+
+    .package {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      background: #fff8e1;
+      border: 5px solid #c49e62;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 900px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+    }
+
+    .package-image-container {
+      flex: 1 1 250px;
+      max-width: 300px;
+      height: 150px;
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f2f2f2;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .package-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+    }
+
+    .view-sample-text {
+      position: absolute;
+      color: #795548;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 8px;
+      border: 2px dashed #c49e62;
+    }
+
+    .package-info {
+      flex: 2 1 400px;
+    }
+
+    .package-title {
+      font-family: 'Amatic SC', cursive;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #bf360c;
+      margin-bottom: 8px;
+    }
+
+    .package-serves {
+      font-style: italic;
+      color: #4e342e;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+
+    .package-inclusions {
+      color: #3e2f1c;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .package-price {
+      text-align: right;
+      color: #d84315;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: #795548;
+        padding: 20px;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .hamburger {
+        display: block;
+        color: white;
+        font-size: 1.5rem;
+      }
+      
+      .package {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .package-price {
+        text-align: center;
+      }
+      .package-image-container {
+        width: 100%;
+        max-width: 100%;
+      }
+      .modal-content img {
+        max-height: 70vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background with blur effect -->
+  <div class="background-wrapper">
+    <div class="background-image"></div>
+  </div>
+  
+  <!-- Content overlay -->
+  <div class="content-overlay">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="logo">Island Vue</a>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div class="nav-links" id="navLinks">
+          <a href="index.html">Home</a>
+          <a href="BOODLEFIGHT2.html">More Boodle Fight options</a>
+          <a href="Breakfast/BREAKFAST.html">Breakfast</a>
+          <a href="ALACART.html">Alacarte</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="content">
+      <h1>Island Vue Boodle Fight</h1>
+
+      <!-- Package 1 -->
+      <div class="package">
+        <div class="package-image-container" onclick="showModal('boodlefight/990.jpg')">
+          <img src="boodlefight/990.jpg" alt="Lita Boodle Fight" style="display: none;">
+          <div class="view-sample-text">Click here to view sample</div>
+        </div>
+        <div class="package-info">
+          <div class="package-title">Lita Boodle Fight</div>
+          <div class="package-serves">Good for 2 persons</div>
+          <div class="package-inclusions">
+            Rice, Crispy Shrimp, Pancit Guisado,<br>
+            Fried Chicken, Calamares, Lechon Kawali, and Fruits
+          </div>
+          <div class="package-price">₱900</div>
+        </div>
+      </div>
+
+      <div class="package">
+        <div class="package-image-container" onclick="showModal('boodlefight/990.jpg')">
+          <img src="boodlefight/990.jpg" alt="Lita Boodle Fight" style="display: none;">
+          <div class="view-sample-text">Click here to view sample</div>
+        </div>
+        <div class="package-info">
+          <div class="package-title">Lita Boodle Fight</div>
+          <div class="package-serves">Good for 5 persons</div>
+          <div class="package-inclusions">
+            Rice, Crispy Shrimp, Pancit Guisado,<br>
+            Fried Chicken, Calamares, Tortang Talong, and Fruits
+          </div>
+          <div class="package-price">₱1,450</div>
+        </div>
+      </div>
+
+      <!-- Package 2 -->
+      <div class="package">
+        <div class="package-image-container" onclick="showModal('boodlefight/990.jpg')">
+          <img src="boodlefight/990.jpg" alt="Lita II Boodle Fight" style="display: none;">
+          <div class="view-sample-text">Click here to view sample</div>
+        </div>
+        <div class="package-info">
+          <div class="package-title">Lita II Boodle Fight</div>
+          <div class="package-serves">Good for 5 persons</div>
+          <div class="package-inclusions">
+            Rice, Crispy Shrimp, Pancit Guisado,<br>
+            Fried Chicken, Calamares, Tortang Talong,<br>
+            Lechon Kawali and Fruits
+          </div>
+          <div class="package-price">₱1,750</div>
+        </div>
+      </div>
+
+      <!-- Package 3 -->
+      <div class="package">
+        <div class="package-image-container" onclick="showModal('boodlefight/990.jpg')">
+          <img src="boodlefight/990.jpg" alt="Maximo Boodle Fight" style="display: none;">
+          <div class="view-sample-text">Click here to view sample</div>
+        </div>
+        <div class="package-info">
+          <div class="package-title">Maximo Boodle Fight</div>
+          <div class="package-serves">Good for 7–8 persons</div>
+          <div class="package-inclusions">
+            Rice, Crispy Shrimp, Pancit Guisado,<br>
+            Fried Chicken, Calamares, Lechon Kawali,<br>
+            Fish and Fruits
+          </div>
+          <div class="package-price">₱2,000</div>
+        </div>
+      </div>
+
+      <!-- Package 4 -->
+      <div class="package">
+        <div class="package-image-container" onclick="showModal('boodlefight/990.jpg')">
+          <img src="boodlefight/990.jpg" alt="Maximo II Boodle Fight" style="display: none;">
+          <div class="view-sample-text">Click here to view sample</div>
+        </div>
+        <div class="package-info">
+          <div class="package-title">Maximo II Boodle Fight</div>
+          <div class="package-serves">Good for 10 persons</div>
+          <div class="package-inclusions">
+            Rice, Crispy Shrimp, Pancit Guisado,<br>
+            Fried Chicken, Calamares, Tortang Talong,<br>
+            Lechon Kawali, Fish and Fruits
+          </div>
+          <div class="package-price">₱2,350</div>
+        </div>
+      </div>
+
+      <div class="note">Prices are subject to 10% service charge</div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="imageModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="hideModal()">&times;</button>
+      <img id="modalImage" src="" alt="Boodle Fight Sample">
+    </div>
+  </div>
+
+  <script>
+    // Navigation toggle for mobile
+    function toggleMenu() {
+      const navLinks = document.getElementById('navLinks');
+      navLinks.classList.toggle('active');
+    }
+
+    // Modal functions
+    function showModal(imageSrc) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      
+      modalImg.src = imageSrc;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hideModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside the image
+    document.getElementById('imageModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        hideModal();
+      }
+    });
+
+    // Close modal with ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        hideModal();
+      }
+    });
+  </script>
+
+</body>
+</html>
